@@ -1,0 +1,36 @@
+CREATE TABLE personal(
+id INT NOT NULL,
+name VARCHAR(50) NOT NULL,
+percentage INT NOT NULL
+age INT NOT NULL
+gender VARCHAR(1) NOT NULL,
+city INT NOT NULL,
+PRIMARY KEY (id)
+FOREIGN KEY(city) REFERENCES CITY(cid)
+);
+
+INSERT INTO personal (id, name, percentage, age, gender, city) VALUES (1, `Sakshi`, 80, 20, `F`, 1),
+(2,`Aman`, 85, 21,`M`,2)
+
+
+NORMALIZATION:
+
+1 NF
+Name   Course
+A     c1,c2
+B      c3 
+C      c2,c3
+
+Relationship: ABCDEF
+FDs
+C->F
+E->A
+EC->D
+A->B
+
+CK:EC
+
+
+
+
+

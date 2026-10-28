@@ -1,0 +1,42 @@
+##Unsupervised Learning
+Where the algorithms are trained on unlabeled data.
+Types:
+1.Clustering:
+Divide set of data points into multiple cluster based in the similarity. It aims to segregate the data points with similar traits.
+
+2.Association:
+Finds the relationship between the variables in large datasets. Determine the dependencies of one data item over another data item. Applications like market basket analysis, FP Growth, Apriori Algorithm etc. 
+
+3.Dimensionality Reduction:
+Identifies the pattern in a dataset and simplifies it by reducing the dimensionality(number of features while preserving its structure and relationship) of the data.
+
+
+##Clustering Types
+1.Centroid based clustering/Partition based(K-means)
+2.Hierarchical Clustering(Agglomerative)
+3.Density based Clustering(DBSCAN)
+4.Distribution clustering(Gaussian Mixture model-GMM)
+5.Grid based Clustering(OPTICS)
+
+1. K-means Clustering:
+2. Hierarchical Clustering
+   a. Agglomerative(Bottom-Up)
+   b. Divisive(Top-Down)
+3.Density based Clustering
+   a. DBSCAN
+   b. OPTICS
+   c. Mean-Shift Clustering
+4.Distribution Clustring
+   GMM(Gaussian Mixture Model)
+
+
+
+
+
+
+
+
+
+
+
+

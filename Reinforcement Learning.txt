@@ -1,0 +1,29 @@
+#REINFORCEMENT LEARNING
+Learning by interacting with the environment and take the feedback from previous errors and make the system more efficiency.
+Trial and Error Learning
+Reward-Based System
+Sequential Decission making
+
+Key terms/Components in RL:
+Agent
+Environment
+State(s)
+Action(A)
+Reward(R)
+
+Types:
+Model Based
+Model Free 
+Value based
+Policy Based
+Actor Critic: Combination of both Value based and policy based approaches.
+On Policy- Off Policy
+
+Q-Learning(value based)
+DQN
+Policy Gradient(policy based)
+Actor critic
+
+Exploration and Exploitation:
+e-greedy algorithm
+UCB(Upper Confidence Bound)
