@@ -1,0 +1,425 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPtWlNroS48AkuIhH0JUQXV",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/kesavanraje/Mncdataanalyst/blob/main/EB-%20bill%20prediction\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3hni5RrPPwCr",
+        "outputId": "58503fed-d598-42e7-9246-11056d3bac83"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Libraries installed successfully!\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "!pip install fastapi scikit-learn pandas requests -q\n",
+        "print(\"Libraries installed successfully!\")\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "uIGQHdc0QuTz"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "import pandas as pd\n",
+        "\n",
+        "data = {\n",
+        "    \"Units_Consumed\": [\n",
+        "        50, 75, 100, 125, 150,\n",
+        "        175, 200, 225, 250, 275,\n",
+        "        300, 325, 350, 375, 400,\n",
+        "        425, 450, 475, 500, 525\n",
+        "    ],\n",
+        "    \"Bill_Amount\": [\n",
+        "        250, 300, 350, 400, 450,\n",
+        "        500, 550, 600, 650, 700,\n",
+        "        750, 800, 850, 900, 950,\n",
+        "        1000, 1050, 1100, 1150, 1200\n",
+        "    ]\n",
+        "}\n",
+        "\n",
+        "df = pd.DataFrame(data)\n",
+        "df.head()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 206
+        },
+        "id": "jEnBAx2aQu-X",
+        "outputId": "cf74ecd0-116c-4d16-b30f-74ecfc0a15e0"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "   Units_Consumed  Bill_Amount\n",
+              "0              50          250\n",
+              "1              75          300\n",
+              "2             100          350\n",
+              "3             125          400\n",
+              "4             150          450"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-98664749-4749-431e-8223-1fd215058277\" class=\"colab-df-container\">\n",
+              "    <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Units_Consumed</th>\n",
+              "      <th>Bill_Amount</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>50</td>\n",
+              "      <td>250</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>75</td>\n",
+              "      <td>300</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>100</td>\n",
+              "      <td>350</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>125</td>\n",
+              "      <td>400</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>150</td>\n",
+              "      <td>450</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "    <div class=\"colab-df-buttons\">\n",
+              "\n",
+              "  <div class=\"colab-df-container\">\n",
+              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-98664749-4749-431e-8223-1fd215058277')\"\n",
+              "            title=\"Convert this dataframe to an interactive table.\"\n",
+              "            style=\"display:none;\">\n",
+              "\n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\" viewBox=\"0 -960 960 960\">\n",
+              "    <path d=\"M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z\"/>\n",
+              "  </svg>\n",
+              "    </button>\n",
+              "\n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-buttons div {\n",
+              "      margin-bottom: 4px;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "    <script>\n",
+              "      const buttonEl =\n",
+              "        document.querySelector('#df-98664749-4749-431e-8223-1fd215058277 button.colab-df-convert');\n",
+              "      buttonEl.style.display =\n",
+              "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "      async function convertToInteractive(key) {\n",
+              "        const element = document.querySelector('#df-98664749-4749-431e-8223-1fd215058277');\n",
+              "        const dataTable =\n",
+              "          await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                    [key], {});\n",
+              "        if (!dataTable) return;\n",
+              "\n",
+              "        const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "          '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "          + ' to learn more about interactive tables.';\n",
+              "        element.innerHTML = '';\n",
+              "        dataTable['output_type'] = 'display_data';\n",
+              "        await google.colab.output.renderOutput(dataTable, element);\n",
+              "        const docLink = document.createElement('div');\n",
+              "        docLink.innerHTML = docLinkHtml;\n",
+              "        element.appendChild(docLink);\n",
+              "      }\n",
+              "    </script>\n",
+              "  </div>\n",
+              "\n",
+              "\n",
+              "    </div>\n",
+              "  </div>\n"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "dataframe",
+              "variable_name": "df",
+              "summary": "{\n  \"name\": \"df\",\n  \"rows\": 20,\n  \"fields\": [\n    {\n      \"column\": \"Units_Consumed\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 147,\n        \"min\": 50,\n        \"max\": 525,\n        \"num_unique_values\": 20,\n        \"samples\": [\n          50,\n          475,\n          425\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"Bill_Amount\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 295,\n        \"min\": 250,\n        \"max\": 1200,\n        \"num_unique_values\": 20,\n        \"samples\": [\n          250,\n          1100,\n          1000\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    }\n  ]\n}"
+            }
+          },
+          "metadata": {},
+          "execution_count": 2
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.linear_model import LinearRegression\n",
+        "from sklearn.metrics import mean_absolute_error, r2_score\n",
+        "\n",
+        "X = df[[\"Units_Consumed\"]]\n",
+        "y = df[\"Bill_Amount\"]\n",
+        "\n",
+        "X_train, X_test, y_train, y_test = train_test_split(\n",
+        "    X, y, test_size=0.2, random_state=42\n",
+        ")\n",
+        "\n",
+        "model = LinearRegression()\n",
+        "model.fit(X_train, y_train)\n",
+        "\n",
+        "predictions = model.predict(X_test)\n",
+        "\n",
+        "print(\"Model trained successfully!\")\n",
+        "print(\"MAE:\", round(mean_absolute_error(y_test, predictions), 2))\n",
+        "print(\"R2 Score:\", round(r2_score(y_test, predictions), 3))\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IpfBOxX4Q13I",
+        "outputId": "b60bdf2b-ba7a-4278-9cb7-61f0e40e413c"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Model trained successfully!\n",
+            "MAE: 0.0\n",
+            "R2 Score: 1.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "units = 250\n",
+        "\n",
+        "predicted_bill = model.predict(\n",
+        "    pd.DataFrame({\"Units_Consumed\": [units]})\n",
+        ")[0]\n",
+        "\n",
+        "print(\"Units Consumed:\", units)\n",
+        "print(\"Predicted EB Bill: ₹\", round(predicted_bill, 2))\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9Bg_sYwVQ7Fq",
+        "outputId": "51bf9372-b94d-4d47-e14e-2fe84f47d39e"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Units Consumed: 250\n",
+            "Predicted EB Bill: ₹ 650.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "from fastapi import FastAPI\n",
+        "from pydantic import BaseModel, Field\n",
+        "from fastapi.testclient import TestClient\n",
+        "\n",
+        "app = FastAPI(title=\"E-Bill Prediction API\")\n",
+        "\n",
+        "class BillInput(BaseModel):\n",
+        "    units: float = Field(gt=0, le=10000)\n",
+        "\n",
+        "@app.get(\"/\")\n",
+        "def home():\n",
+        "    return {\"message\": \"E-Bill Prediction API is working\"}\n",
+        "\n",
+        "@app.post(\"/predict\")\n",
+        "def predict_bill(data: BillInput):\n",
+        "    input_data = pd.DataFrame({\n",
+        "        \"Units_Consumed\": [data.units]\n",
+        "    })\n",
+        "\n",
+        "    prediction = model.predict(input_data)[0]\n",
+        "\n",
+        "    return {\n",
+        "        \"units_consumed\": data.units,\n",
+        "        \"predicted_bill\": round(float(prediction), 2),\n",
+        "        \"currency\": \"INR\"\n",
+        "    }\n",
+        "\n",
+        "client = TestClient(app)\n",
+        "\n",
+        "response = client.post(\n",
+        "    \"/predict\",\n",
+        "    json={\"units\": 250}\n",
+        ")\n",
+        "\n",
+        "print(\"Status Code:\", response.status_code)\n",
+        "print(\"API Response:\", response.json())\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "G3t100QUQ-6O",
+        "outputId": "a3e89def-dcf4-46df-fc15-e28af94834bb"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Status Code: 200\n",
+            "API Response: {'units_consumed': 250.0, 'predicted_bill': 650.0, 'currency': 'INR'}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "test_units = [100, 250, 400, 500]\n",
+        "\n",
+        "for units in test_units:\n",
+        "    response = client.post(\n",
+        "        \"/predict\",\n",
+        "        json={\"units\": units}\n",
+        "    )\n",
+        "    print(response.json())\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "8jURnkUeRKPh",
+        "outputId": "3f02e322-f438-459a-a706-7cbecdec2116"
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "{'units_consumed': 100.0, 'predicted_bill': 350.0, 'currency': 'INR'}\n",
+            "{'units_consumed': 250.0, 'predicted_bill': 650.0, 'currency': 'INR'}\n",
+            "{'units_consumed': 400.0, 'predicted_bill': 950.0, 'currency': 'INR'}\n",
+            "{'units_consumed': 500.0, 'predicted_bill': 1150.0, 'currency': 'INR'}\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
